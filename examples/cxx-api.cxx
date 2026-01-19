@@ -11,6 +11,7 @@
 #include <fstream>
 #include <thread>
 #include <chrono>
+#include <unistd.h>
 
 #include "replxx.hxx"
 #include "util.h"
@@ -397,7 +398,7 @@ int main( int argc_, char** argv_ ) {
 	}
 
 	// init the repl
-	Replxx rx;
+	Replxx rx(std::cin, std::cout, STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
 	Tick tick( rx, keys, tickMessages, promptFan );
 	rx.install_window_change_handler();
 
@@ -418,8 +419,8 @@ int main( int argc_, char** argv_ ) {
 
 	// set the callbacks
 	using namespace std::placeholders;
-	rx.set_completion_callback( std::bind( &hook_completion, _1, _2, cref( examples ), ignoreCase ) );
-	rx.set_highlighter_callback( std::bind( &hook_color, _1, _2, cref( regex_color ), cref( word_color ) ) );
+	rx.set_completion_callback( Replxx::completion_callback_t( std::bind( &hook_completion, _1, _2, cref( examples ), ignoreCase ) ) );
+	rx.set_highlighter_callback( Replxx::highlighter_callback_with_pos_t( std::bind( &hook_color, _1, _2, cref( regex_color ), cref( word_color ) ) ) );
 	rx.set_hint_callback( std::bind( &hook_hint, _1, _2, _3, cref( examples ), ignoreCase ) );
 	if ( promptInCallback ) {
 		rx.set_modify_callback( std::bind( &hook_modify, _1, _2, &rx ) );

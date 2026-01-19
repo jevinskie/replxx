@@ -4,6 +4,7 @@
 #include <cstring>
 #include <array>
 #include <stdexcept>
+#include <algorithm>
 
 #ifdef _WIN32
 

@@ -134,7 +134,8 @@ int main( int argc, char** argv ) {
 	char* examples[MAX_EXAMPLE_COUNT + 1] = {
 		"db", "hello", "hallo", "hans", "hansekogge", "seamann", "quetzalcoatl", "quit", "power", NULL
 	};
-	Replxx* replxx = replxx_init();
+	// Replxx* replxx = replxx_init();
+	Replxx* replxx = NULL; // FIXME: would you belive me if I told you this can crash the program? But it builds...
 	replxx_install_window_change_handler( replxx );
 
 	int quiet = 0;
