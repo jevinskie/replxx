@@ -224,7 +224,7 @@ typedef struct ReplxxHistoryEntryTag {
  *
  * \return Replxx library resource holder.
  */
-// REPLXX_IMPEXP Replxx* replxx_init( void );
+REPLXX_IMPEXP Replxx* replxx_init( int in_fd, int out_fd, int err_fd );
 
 /*! \brief Cleanup resources used by Replxx library.
  *

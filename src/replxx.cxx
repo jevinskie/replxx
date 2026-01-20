@@ -126,8 +126,8 @@ void delete_ReplxxImpl( Replxx::ReplxxImpl* impl_ ) {
 }
 }
 
-Replxx::Replxx( std::istream & input_stream_, std::ostream & output_stream_, int in_fd_, int out_fd_, int err_fd_ )
-	: _impl( new Replxx::ReplxxImpl( input_stream_, output_stream_, in_fd_, out_fd_, err_fd_ ), delete_ReplxxImpl ) {
+Replxx::Replxx( int in_fd_, int out_fd_, int err_fd_ )
+	: _impl( new Replxx::ReplxxImpl( in_fd_, out_fd_, err_fd_ ), delete_ReplxxImpl ) {
 }
 
 void Replxx::set_completion_callback( completion_callback_t const& fn ) {
@@ -343,10 +343,10 @@ Replxx::Color rgb666( int red_, int green_, int blue_ ) {
 
 }
 
-// ::Replxx* replxx_init() {
-// 	typedef ::Replxx* replxx_data_t;
-// 	return ( reinterpret_cast<replxx_data_t>( new replxx::Replxx::ReplxxImpl( nullptr, nullptr, nullptr ) ) );
-// }
+::Replxx* replxx_init( int in_fd, int out_fd, int err_fd ) {
+ 	typedef ::Replxx* replxx_data_t;
+ 	return ( reinterpret_cast<replxx_data_t>( new replxx::Replxx::ReplxxImpl( in_fd, out_fd, err_fd ) ) );
+}
 
 void replxx_end( ::Replxx* replxx_ ) {
 	delete reinterpret_cast<replxx::Replxx::ReplxxImpl*>( replxx_ );

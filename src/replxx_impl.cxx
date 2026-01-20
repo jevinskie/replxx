@@ -147,7 +147,7 @@ public:
 
 }
 
-Replxx::ReplxxImpl::ReplxxImpl( std::istream & in_, std::ostream & out_, int in_fd_, int out_fd_, int err_fd_ )
+Replxx::ReplxxImpl::ReplxxImpl( int in_fd_, int out_fd_, int err_fd_ )
 	: _utf8Buffer()
 	, _data()
 	, _pos( 0 )
@@ -203,8 +203,6 @@ Replxx::ReplxxImpl::ReplxxImpl( std::istream & in_, std::ostream & out_, int in_
 	, _moveCursor( false )
 	, _ignoreCase( false )
 	, _mutex()
-	, _in(in_)
-	, _out(out_)
 	, _in_fd(in_fd_)
 	, _out_fd(out_fd_)
 	, _err_fd(err_fd_) {
