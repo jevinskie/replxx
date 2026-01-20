@@ -398,7 +398,7 @@ int main( int argc_, char** argv_ ) {
 	}
 
 	// init the repl
-	Replxx rx(std::cin, std::cout, STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
+	Replxx rx( STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO );
 	Tick tick( rx, keys, tickMessages, promptFan );
 	rx.install_window_change_handler();
 

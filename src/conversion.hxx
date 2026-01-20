@@ -9,9 +9,12 @@
 #endif
 #endif
 
-#if ! ( defined( __cpp_lib_char8_t ) || ( defined( __clang_major__ ) && ( __clang_major__ >= 8 ) && ( __cplusplus > 201703L ) ) )
+#if ! defined( __cpp_lib_char8_t )
 namespace replxx {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++20-compat"
 typedef unsigned char char8_t;
+#pragma GCC diagnostic pop
 }
 #endif
 
