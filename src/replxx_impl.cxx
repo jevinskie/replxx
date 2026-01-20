@@ -613,10 +613,23 @@ void Replxx::ReplxxImpl::set_preload_buffer( std::string const& preloadText ) {
 
 char const* Replxx::ReplxxImpl::read_from_stdin( void ) {
 	if ( _preloadedBuffer.empty() ) {
-		getline( _in, _preloadedBuffer );
-		if ( ! _in.good() ) {
-			return nullptr;
-		}
+		do {
+			char c = '\0';
+			ssize_t rd_res = ::read( _in_fd, &c, sizeof(c) );
+			if ( rd_res == 1 ) {
+				if ( c == '\n' ) {
+					break;
+				}
+				_preloadedBuffer += c;
+			} else if ( rd_res < 0 ) {
+				if ( errno == EINTR ) {
+					continue;
+				}
+				return nullptr;
+			} else {
+				break; // EOF
+			}
+		} while ( true );
 	}
 	while ( ! _preloadedBuffer.empty() && ( ( _preloadedBuffer.back() == '\r' ) || ( _preloadedBuffer.back() == '\n' ) ) ) {
 		_preloadedBuffer.pop_back();
