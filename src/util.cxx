@@ -98,6 +98,15 @@ int virtual_render( char32_t const* display_, int size_, int& x_, int& y_, int s
 			++ pos;
 			continue;
 		}
+		if ( c == '\t' ) {
+			render( ' ', true );
+			render( ' ', true );
+			render( ' ', true );
+			render( ' ', true );
+			advance_cursor( 4 );
+			++ pos;
+			continue;
+		}
 		if ( is_control_code( c ) ) {
 			render( c, true );
 			advance_cursor( 2 );

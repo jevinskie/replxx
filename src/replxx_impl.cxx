@@ -783,6 +783,11 @@ void Replxx::ReplxxImpl::render( char32_t ch ) {
 	if ( ch == Replxx::KEY::ESCAPE ) {
 		_display.push_back( '^' );
 		_display.push_back( '[' );
+	} else if ( ch == '\t' ) {
+		_display.push_back( ' ' );
+		_display.push_back( ' ' );
+		_display.push_back( ' ' );
+		_display.push_back( ' ' );
 	} else if ( is_control_code( ch ) && ( ch != '\n' ) ) {
 		_display.push_back( '^' );
 		_display.push_back( control_to_human( ch ) );
@@ -1180,7 +1185,7 @@ char32_t Replxx::ReplxxImpl::do_complete_line( bool showCompletions_ ) {
 	int longestCommonPrefix = 0;
 	int completionsCount( static_cast<int>( _completions.size() ) );
 	int selectedCompletion( 0 );
-	if ( ( completionsCount > 1 ) && ( _hintSelection != -1 ) ) {
+	if ( ( completionsCount > 1 ) && ( _hintSelection >= 0 ) && ( _hintSelection < completionsCount ) ) {
 		selectedCompletion = _hintSelection;
 		completionsCount = 1;
 	}
@@ -1509,7 +1514,7 @@ Replxx::ACTION_RESULT Replxx::ReplxxImpl::insert_character( char32_t c ) {
 	 * beep on unknown Ctrl and/or Meta keys
 	 * don't insert control characters
 	 */
-	if ( ( c >= static_cast<int>( Replxx::KEY::BASE ) ) || ( is_control_code( c ) && ( c != '\n' ) ) ) {
+	if ( ( c >= static_cast<int>( Replxx::KEY::BASE ) ) || ( is_control_code( c ) && ( c != '\n' ) && ( c != '\t' ) ) ) {
 		beep(_err_fd);
 		return ( Replxx::ACTION_RESULT::CONTINUE );
 	}
